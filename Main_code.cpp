@@ -1,24 +1,26 @@
 // C++ Program to Inverse a 2x2 or 3x3 Matrix
 #include<iostream>
+#include <iomanip> //for setting float precision
 //using namespace std;
 using std::cout;
 using std::cin;
+using std::setprecision;
 
-int **enterMatrix(int matOrderSelect);
-void printMatrix(int**mat1, int matOrderSelect);
+float **enterMatrix(float matOrderSelect);
+void printMatrix(float **mat1, float matOrderSelect);
 
 int i=0,j=0,N=3;
 
-int **enterMatrix(int matOrderSelect)
+float **enterMatrix(float matOrderSelect)
 {
         int i=matOrderSelect, j=matOrderSelect; 
-        int **mat1= new int*[N];
+        float **mat1= new float*[N];
         cout<<"\t\t | Matrix Inversion of "<<i<<"X"<<j<<" | \t\t\n";
         cout << "Enter Elements of "<<i<<"X"<<j<<" Matrix: \n";
 
         for(i=0; i < matOrderSelect; i++)
         {
-          mat1[i]= new int[N];
+          mat1[i]= new float[N];
             for(j=0; j < matOrderSelect; j++ ) 
             {
               cout <<"Matrix["<<i<<"]["<<j<<"]:";
@@ -28,10 +30,10 @@ int **enterMatrix(int matOrderSelect)
         return mat1;
 }
 
-void printMatrix(int**mat1, int matOrderSelect)
+void printMatrix(float**mat1, float matOrderSelect)
 {
   cout<<"\v";
-  cout<<"Given "<<i<<"X"<<j<<" Matrix: ";
+  cout<<"Given "<<matOrderSelect<<"X"<<matOrderSelect<<" Matrix: ";
 
   for(i=0; i < matOrderSelect; i++)
         {
@@ -47,12 +49,12 @@ void printMatrix(int**mat1, int matOrderSelect)
 
 int main()
 {
-    int matOrderSelect, determinant;
-    int **givenMatrix;
+    float matOrderSelect, determinant, inverse2[2][2]={0}, tempmatrix[2][2];;
+    float **givenMatrix;
 
     cout<< "\n\n==============Select Matrix Order to inverse!==================\n\n";
     choice:
-    cout<< "Press 1 to enter a custom order of Square Matrix.(Doesn't work yet!) \nPress 2 for 2x2 Matrix inversion.\nPress 3 for 3x3 Matrix Inversion."; 
+    cout<< "\nPress 1 to enter a custom order of Square Matrix.(Doesn't work yet!) \nPress 2 for 2x2 Matrix inversion.\nPress 3 for 3x3 Matrix Inversion."; 
     cin>>matOrderSelect;
     
     if(matOrderSelect!=2 && matOrderSelect!=3)
@@ -67,15 +69,56 @@ int main()
 
       if(matOrderSelect==2)
       {
-        cout<<"\nDeterminant: "<<(givenMatrix[0][0] * givenMatrix[1][1])-(givenMatrix[0][1] * givenMatrix[1][0]);
-
+        determinant=(givenMatrix[0][0] * givenMatrix[1][1])-(givenMatrix[0][1] * givenMatrix[1][0]);
+        cout<<"\nDeterminant: "<<determinant;
+        
+        if(determinant==0)
+        {
+          cout<<"\nDeterminant is 0, Matrix's inverse doesn't Exit!\n";
+        }
+        else
+        {
+          
+          cout<<"\nDeterminant is not 0, Matrix Inverse Exist\n";
+        }
+        
+        tempmatrix[0][0]=givenMatrix[0][0];
+        givenMatrix[0][0]=givenMatrix[1][1];
+        givenMatrix[1][1]=tempmatrix[0][0];
+        
+        givenMatrix[0][1]=givenMatrix[0][1]-(2*givenMatrix[0][1]);
+        givenMatrix[1][0]=givenMatrix[1][0]-(2*givenMatrix[1][0]);
+        
+        cout<<'\n'<<"Inverse matrix: \n";
+        for(i=0;i<matOrderSelect;i++) 
+        {
+          cout<<'\n';
+          for(j=0;j<matOrderSelect;j++) 
+          {
+            inverse2[i][j]= (givenMatrix[i][j]/determinant);
+            cout<<inverse2[i][j]<<setprecision(2)<<" ";
+          }
+        }
+        
       }
       
       if(matOrderSelect==3)
       {
-        cout<<"\nDeterminant: "<<givenMatrix[0][0] * (givenMatrix[1][1] * givenMatrix[2][2] - givenMatrix[2][1] * givenMatrix[1][2]) 
-                                -givenMatrix[0][1] * (givenMatrix[1][0] * givenMatrix[2][2] - givenMatrix[2][0] * givenMatrix[1][2]) 
-                                +givenMatrix[0][2] * (givenMatrix[1][0] * givenMatrix[2][1] - givenMatrix[2][0] * givenMatrix[1][1]);
+          
+        determinant = givenMatrix[0][0] * (givenMatrix[1][1] * givenMatrix[2][2] - givenMatrix[2][1] * givenMatrix[1][2]) 
+                     -givenMatrix[0][1] * (givenMatrix[1][0] * givenMatrix[2][2] - givenMatrix[2][0] * givenMatrix[1][2]) 
+                     +givenMatrix[0][2] * (givenMatrix[1][0] * givenMatrix[2][1] - givenMatrix[2][0] * givenMatrix[1][1]);
+                     
+        cout<<"\nDeterminant: "<<determinant;
+      
+        if(determinant==0)
+        {
+          cout<<"\nDeterminant is 0, Matrix's inverse doesn't Exit!\n";
+        }
+        else
+        {
+          cout<<"\nDeterminant is not 0, Matrix Inverse Exist\n";
+        }  
       }
     }
     return 0;
