@@ -8,8 +8,10 @@ using std::setprecision;
 
 float **enterMatrix(float matOrderSelect);
 void printMatrix(float **mat1, float matOrderSelect);
+float **InverseOf2(float **givenMatrix);
 
 int i=0,j=0,N=3;
+float matOrderSelect, determinant, inverse2[2][2]={0}, tempmatrix[2][2];
 
 float **enterMatrix(float matOrderSelect)
 {
@@ -47,9 +49,41 @@ void printMatrix(float**mat1, float matOrderSelect)
 
 }
 
+float **InverseOf2(float **givenMatrix)
+{
+  if(determinant==0)
+        {
+          cout<<"\nDeterminant is 0, Matrix's inverse doesn't Exist!\n";
+        }
+        else
+        {
+          
+          cout<<"\nDeterminant is not 0, Matrix Inverse Exist\n";
+
+        tempmatrix[0][0]=givenMatrix[0][0];
+        givenMatrix[0][0]=givenMatrix[1][1];
+        givenMatrix[1][1]=tempmatrix[0][0];
+        
+        givenMatrix[0][1]=givenMatrix[0][1]-(2*givenMatrix[0][1]);
+        givenMatrix[1][0]=givenMatrix[1][0]-(2*givenMatrix[1][0]);
+        
+        cout<<'\n'<<"Inverse matrix: \n";
+        for(i=0;i<matOrderSelect;i++) 
+        {
+          cout<<'\n';
+          for(j=0;j<matOrderSelect;j++) 
+          {
+            inverse2[i][j]= (givenMatrix[i][j]/determinant);
+            cout<<inverse2[i][j]<<setprecision(2)<<" ";
+          }
+        }
+        }
+        
+        
+}
+
 int main()
 {
-    float matOrderSelect, determinant, inverse2[2][2]={0}, tempmatrix[2][2];;
     float **givenMatrix;
 
     cout<< "\n\n==============Select Matrix Order to inverse!==================\n\n";
@@ -71,34 +105,7 @@ int main()
       {
         determinant=(givenMatrix[0][0] * givenMatrix[1][1])-(givenMatrix[0][1] * givenMatrix[1][0]);
         cout<<"\nDeterminant: "<<determinant;
-        
-        if(determinant==0)
-        {
-          cout<<"\nDeterminant is 0, Matrix's inverse doesn't Exit!\n";
-        }
-        else
-        {
-          
-          cout<<"\nDeterminant is not 0, Matrix Inverse Exist\n";
-        }
-        
-        tempmatrix[0][0]=givenMatrix[0][0];
-        givenMatrix[0][0]=givenMatrix[1][1];
-        givenMatrix[1][1]=tempmatrix[0][0];
-        
-        givenMatrix[0][1]=givenMatrix[0][1]-(2*givenMatrix[0][1]);
-        givenMatrix[1][0]=givenMatrix[1][0]-(2*givenMatrix[1][0]);
-        
-        cout<<'\n'<<"Inverse matrix: \n";
-        for(i=0;i<matOrderSelect;i++) 
-        {
-          cout<<'\n';
-          for(j=0;j<matOrderSelect;j++) 
-          {
-            inverse2[i][j]= (givenMatrix[i][j]/determinant);
-            cout<<inverse2[i][j]<<setprecision(2)<<" ";
-          }
-        }
+        InverseOf2(givenMatrix);
         
       }
       
