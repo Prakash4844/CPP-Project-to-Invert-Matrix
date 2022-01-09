@@ -7,7 +7,7 @@ using std::cin;
 using std::setprecision;
 
 int i=0,j=0,N=3;
-float matOrderSelect, determinant, inverse2[2][2]={0}, tempmatrix[2][2];
+float matOrderSelect, determinant, inverse2[2][2]={0}, tempmatrix[2][2], transpose2D[2][2], transpose3D[3][3];
 
 class Matrix
 {
